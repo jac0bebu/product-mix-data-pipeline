@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="157"
-  DTS:VersionGUID="{CE5D602E-FF7D-4947-AD3A-A177781A5454}">
+  DTS:VersionBuild="204"
+  DTS:VersionGUID="{5DF9A184-6620-44D2-BAF8-2DD8DB0BD625}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -216,7 +216,43 @@
       DTS:Namespace="User"
       DTS:ObjectName="EndDate">
       <DTS:VariableValue
-        DTS:DataType="7">12/31/2030</DTS:VariableValue>
+        DTS:DataType="7">12/31/2026</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A968D755-2013-4617-AFEC-74AE97388544}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="rc_A">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{22D6AB43-EC7E-4AA9-A2B7-8E0224082B93}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="rc_B">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6711A349-E534-4309-99E0-1372F0146862}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="rc_LkpMarketNoMatch">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8D3F670D-3408-49FF-AC63-62BF81160A8F}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="rc_MJ">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -225,16 +261,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="StartDate">
       <DTS:VariableValue
-        DTS:DataType="7">1/1/2005</DTS:VariableValue>
-    </DTS:Variable>
-    <DTS:Variable
-      DTS:CreationName=""
-      DTS:DTSID="{84B4D6CA-C5C5-4B1D-8F0A-152E7176AB99}"
-      DTS:IncludeInDebugDump="2345"
-      DTS:Namespace="User"
-      DTS:ObjectName="Variable">
-      <DTS:VariableValue
-        DTS:DataType="8">vWM_FPM</DTS:VariableValue>
+        DTS:DataType="7">1/1/2010</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -251,7 +278,6 @@
       DTS:refId="Package\Data Flow Task"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:Disabled="True"
       DTS:DTSID="{9A85187C-4310-4AF3-8DB8-0CCD589DF1C0}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -503,7 +529,6 @@ WHERE dd.DateKey &gt; ?;   -- watermark to keep the cache small</property>
       DTS:refId="Package\Execute SQL Task"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
-      DTS:Disabled="True"
       DTS:DTSID="{2225607E-A8E4-49D7-AFCA-BD246F6FDA1C}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -526,7 +551,6 @@ WHERE dd.DateKey &gt; ?;   -- watermark to keep the cache small</property>
       DTS:refId="Package\Execute SQL Task 1"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
-      DTS:Disabled="True"
       DTS:DTSID="{75FE5C0B-B52B-4A3D-B2DD-695D075FF526}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -537,13 +561,14 @@ WHERE dd.DateKey &gt; ?;   -- watermark to keep the cache small</property>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{582764F9-1437-45D3-99D4-E1BEDBBCD247}"
-          SQLTask:SqlStatementSource=";WITH CatCounts AS (&#xA;  SELECT f.MarketKey, f.DateKey, COUNT(*) AS CategoryCount&#xA;  FROM (SELECT DISTINCT f.MarketKey, f.DateKey, p.CategoryName&#xA;        FROM dbo.FactProductMix f&#xA;        JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey) d&#xA;  GROUP BY d.MarketKey, d.DateKey&#xA;),&#xA;SKUCounts AS (&#xA;  SELECT f.MarketKey, f.DateKey, COUNT(*) AS SKUCount&#xA;  FROM (SELECT DISTINCT f.MarketKey, f.DateKey, f.ProductKey&#xA;        FROM dbo.FactProductMix f) d&#xA;  GROUP BY d.MarketKey, d.DateKey&#xA;),&#xA;VariantCounts AS (&#xA;  SELECT f.MarketKey, f.DateKey, p.ProductID, p.Size, COUNT(*) AS VariantCount&#xA;  FROM dbo.FactProductMix f&#xA;  JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey&#xA;  GROUP BY f.MarketKey, f.DateKey, p.ProductID, p.Size&#xA;)&#xA;UPDATE f&#xA;SET&#xA;  f.CategoryCount = cc.CategoryCount,&#xA;  f.SKUCount      = sc.SKUCount,&#xA;  f.VariantCount  = vc.VariantCount&#xA;FROM dbo.FactProductMix f&#xA;JOIN dbo.DimProduct p  ON p.ProductKey = f.ProductKey&#xA;JOIN CatCounts cc ON cc.MarketKey = f.MarketKey AND cc.DateKey = f.DateKey&#xA;JOIN SKUCounts sc ON sc.MarketKey = f.MarketKey AND sc.DateKey = f.DateKey&#xA;JOIN VariantCounts vc ON vc.MarketKey = f.MarketKey&#xA;                      AND vc.DateKey   = f.DateKey&#xA;                      AND vc.ProductID = p.ProductID&#xA;                      AND ISNULL(vc.Size,'') = ISNULL(p.Size,'');&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource=";WITH CatCounts AS (&#xA;  SELECT d.MarketKey, d.DateKey, COUNT(*) AS CategoryCount  --&lt;-- FIXED&#xA;  FROM (SELECT DISTINCT f.MarketKey, f.DateKey, p.CategoryName&#xA;        FROM dbo.FactProductMix f&#xA;        JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey) d&#xA;  GROUP BY d.MarketKey, d.DateKey&#xA;),&#xA;SKUCounts AS (&#xA;  SELECT d.MarketKey, d.DateKey, COUNT(*) AS SKUCount  --&lt;-- FIXED&#xA;  FROM (SELECT DISTINCT f.MarketKey, f.DateKey, f.ProductKey&#xA;        FROM dbo.FactProductMix f) d&#xA;  GROUP BY d.MarketKey, d.DateKey&#xA;),&#xA;VariantCounts AS (&#xA;  SELECT f.MarketKey, f.DateKey,p.ProductID, p.Size, COUNT(*) AS VariantCount&#xA;  FROM dbo.FactProductMix f&#xA;  JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey&#xA;  GROUP BY f.MarketKey, f.DateKey, p.ProductID, p.Size&#xA;)&#xA;UPDATE f&#xA;SET&#xA;  f.CategoryCount = cc.CategoryCount,&#xA;  f.SKUCount      = sc.SKUCount,&#xA;  f.VariantCount  = vc.VariantCount&#xA;FROM dbo.FactProductMix f&#xA;JOIN dbo.DimProduct p  ON p.ProductKey = f.ProductKey&#xA;JOIN CatCounts cc ON cc.MarketKey = f.MarketKey AND cc.DateKey = f.DateKey&#xA;JOIN SKUCounts sc ON sc.MarketKey = f.MarketKey AND sc.DateKey = f.DateKey&#xA;JOIN VariantCounts vc ON vc.MarketKey = f.MarketKey&#xA;                      AND vc.DateKey   = f.DateKey&#xA;                      AND vc.ProductID = p.ProductID&#xA;                      AND ISNULL(vc.Size,'') = ISNULL(p.Size,'');" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Execute SQL Task 2"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{D9F5768D-9769-49E5-862F-E204809F599F}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -555,6 +580,29 @@ WHERE dd.DateKey &gt; ?;   -- watermark to keep the cache small</property>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{582764F9-1437-45D3-99D4-E1BEDBBCD247}"
           SQLTask:SqlStatementSource=";WITH CatCounts AS (&#xA;  SELECT d.MarketKey, d.DateKey, COUNT(*) AS CategoryCount&#xA;  FROM (&#xA;    SELECT DISTINCT f.MarketKey, f.DateKey, p.CategoryName&#xA;    FROM dbo.FactProductMix f&#xA;    JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey&#xA;  ) AS d&#xA;  GROUP BY d.MarketKey, d.DateKey&#xA;),&#xA;SKUCounts AS (&#xA;  SELECT d.MarketKey, d.DateKey, COUNT(*) AS SKUCount&#xA;  FROM (&#xA;    SELECT DISTINCT f.MarketKey, f.DateKey, f.ProductKey&#xA;    FROM dbo.FactProductMix f&#xA;  ) AS d&#xA;  GROUP BY d.MarketKey, d.DateKey&#xA;),&#xA;VariantCounts AS (&#xA;  SELECT f.MarketKey, f.DateKey, p.ProductID, p.Size, COUNT(*) AS VariantCount&#xA;  FROM dbo.FactProductMix f&#xA;  JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey&#xA;  GROUP BY f.MarketKey, f.DateKey, p.ProductID, p.Size&#xA;)&#xA;UPDATE f&#xA;SET&#xA;  f.CategoryCount = cc.CategoryCount,&#xA;  f.SKUCount      = sc.SKUCount,&#xA;  f.VariantCount  = vc.VariantCount&#xA;FROM dbo.FactProductMix f&#xA;JOIN dbo.DimProduct p ON p.ProductKey = f.ProductKey&#xA;JOIN CatCounts     cc ON cc.MarketKey = f.MarketKey AND cc.DateKey = f.DateKey&#xA;JOIN SKUCounts     sc ON sc.MarketKey = f.MarketKey AND sc.DateKey = f.DateKey&#xA;JOIN VariantCounts vc ON vc.MarketKey = f.MarketKey&#xA;                      AND vc.DateKey   = f.DateKey&#xA;                      AND vc.ProductID = p.ProductID&#xA;                      AND ISNULL(vc.Size,'') = ISNULL(p.Size,'');&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task 3"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{B66A50D5-EB47-4C4C-B01F-724EE698E261}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task 3"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{582764F9-1437-45D3-99D4-E1BEDBBCD247}"
+          SQLTask:SqlStatementSource="SELECT COALESCE(MAX(DateKey), CONVERT(date,'19000101')) AS WM&#xA;FROM dbo.FactProductMix;&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::vWM_FPM" />
+        </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -575,13 +623,13 @@ WHERE dd.DateKey &gt; ?;   -- watermark to keep the cache small</property>
           SQLTask:SqlStatementSource="DECLARE @StartDate DATE = ?, @EndDate DATE = ?;&#xA;&#xA;;WITH months AS (&#xA;    SELECT DATEFROMPARTS(YEAR(@StartDate), MONTH(@StartDate), 1) AS m&#xA;    UNION ALL&#xA;    SELECT DATEADD(MONTH, 1, m)&#xA;    FROM months&#xA;    WHERE m &lt; DATEFROMPARTS(YEAR(@EndDate), MONTH(@EndDate), 1)&#xA;)&#xA;INSERT INTO dbo.DimDate (DateKey, FullDate, [Year], [Quarter], [Month], MonthName)&#xA;SELECT&#xA;    m                   AS DateKey,   -- first day of month&#xA;    m                   AS FullDate,&#xA;    YEAR(m)             AS [Year],&#xA;    DATEPART(QUARTER,m) AS [Quarter],&#xA;    MONTH(m)            AS [Month],&#xA;    DATENAME(MONTH,m)   AS MonthName&#xA;FROM months&#xA;WHERE NOT EXISTS (SELECT 1 FROM dbo.DimDate x WHERE x.DateKey = m)&#xA;OPTION (MAXRECURSION 0);&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Package::P_LoadStartDate"
+            SQLTask:DtsVariableName="User::StartDate"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="1"
-            SQLTask:DtsVariableName="$Package::P_LoadEndDate"
+            SQLTask:DtsVariableName="User::EndDate"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="7"
             SQLTask:ParameterSize="-1" />
@@ -3947,10 +3995,111 @@ WHERE p.FinishedGoodsFlag = 1;</property>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Load FactProductMix Monthly"
+      DTS:refId="Package\Load DimProductCluster"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
       DTS:Disabled="True"
+      DTS:DTSID="{553C114D-79EB-4B54-96F3-1D98D00161FC}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load DimProductCluster"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load DimProductCluster\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load DimProductCluster\OLE DB Source.Connections[OleDbConnection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load DimProductCluster\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <externalMetadataColumns
+                    isUsed="True" />
+                </output>
+                <output
+                  refId="Package\Load DimProductCluster\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load DimProductCluster\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load DimProductCluster\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load DimProductCluster\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load DimProductCluster\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load FactProductMix Monthly"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
       DTS:DTSID="{0577C547-B05F-4341-80B4-B7371D11F082}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -5365,6 +5514,7 @@ GROUP BY
       DTS:refId="Package\Load ProductMixMonthly"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
       DTS:DTSID="{94AF97C7-0ED6-4635-A821-8F38023C44A9}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -5449,6 +5599,220 @@ GROUP BY
                       refId="Package\Load ProductMixMonthly\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Load ProductMixMonthly\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load ProductMixMonthly\Derived Column 1"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load ProductMixMonthly\Derived Column 1.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 1.Inputs[Derived Column Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\Load ProductMixMonthly\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 1.Inputs[Derived Column Input].Columns[MonthStart]"
+                      cachedDataType="dbDate"
+                      cachedName="MonthStart"
+                      lineageId="Package\Load ProductMixMonthly\OLE DB Source.Outputs[OLE DB Source Output].Columns[MonthStart]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load ProductMixMonthly\Derived Column 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_ProductID]"
+                      name="L_ProductID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I4)#{Package\Load ProductMixMonthly\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I4)ProductID</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_MonthStart]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_MonthStart]"
+                      name="L_MonthStart"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBDATE)#{Package\Load ProductMixMonthly\OLE DB Source.Outputs[OLE DB Source Output].Columns[MonthStart]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)MonthStart</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load ProductMixMonthly\Derived Column 1.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load ProductMixMonthly\Derived Column 2"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 2"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Load ProductMixMonthly\Derived Column 2.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 2.Inputs[Derived Column Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      lineageId="Package\Load ProductMixMonthly\OLE DB Source 1.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 2.Inputs[Derived Column Input].Columns[MonthStart]"
+                      cachedDataType="dbDate"
+                      cachedName="MonthStart"
+                      lineageId="Package\Load ProductMixMonthly\OLE DB Source 1.Outputs[OLE DB Source Output].Columns[MonthStart]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Load ProductMixMonthly\Derived Column 2.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_ProductID]"
+                      name="R_ProductID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I4)#{Package\Load ProductMixMonthly\OLE DB Source 1.Outputs[OLE DB Source Output].Columns[ProductID]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I4)ProductID</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_MonthStart]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_MonthStart]"
+                      name="R_MonthStart"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBDATE)#{Package\Load ProductMixMonthly\OLE DB Source 1.Outputs[OLE DB Source Output].Columns[MonthStart]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBDATE)MonthStart</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Load ProductMixMonthly\Derived Column 2.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -5805,16 +6169,9 @@ where [refTable].[IndexBucket] = ?</property>
                   name="Merge Join Left Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Left Input].Columns[ProductID]"
-                      cachedDataType="i4"
-                      cachedName="ProductID"
-                      cachedSortKeyPosition="1"
-                      lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[ProductID]" />
-                    <inputColumn
                       refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Left Input].Columns[MonthStart]"
                       cachedDataType="dbDate"
                       cachedName="MonthStart"
-                      cachedSortKeyPosition="2"
                       lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[MonthStart]" />
                     <inputColumn
                       refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Left Input].Columns[TerritoryID]"
@@ -5838,6 +6195,18 @@ where [refTable].[IndexBucket] = ?</property>
                       cachedDataType="cy"
                       cachedName="TotalProfit"
                       lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[TotalProfit]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Left Input].Columns[L_ProductID]"
+                      cachedDataType="i4"
+                      cachedName="L_ProductID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[L_ProductID]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Left Input].Columns[L_MonthStart]"
+                      cachedDataType="dbDate"
+                      cachedName="L_MonthStart"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[L_MonthStart]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -5847,22 +6216,22 @@ where [refTable].[IndexBucket] = ?</property>
                   name="Merge Join Right Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input].Columns[ProductID]"
-                      cachedDataType="i4"
-                      cachedName="ProductID"
-                      cachedSortKeyPosition="1"
-                      lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[ProductID]" />
-                    <inputColumn
-                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input].Columns[MonthStart]"
-                      cachedDataType="dbDate"
-                      cachedName="MonthStart"
-                      cachedSortKeyPosition="2"
-                      lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[MonthStart]" />
-                    <inputColumn
                       refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input].Columns[ProductKey]"
                       cachedDataType="i4"
                       cachedName="ProductKey"
                       lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[ProductKey]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input].Columns[R_ProductID]"
+                      cachedDataType="i4"
+                      cachedName="R_ProductID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[R_ProductID]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input].Columns[R_MonthStart]"
+                      cachedDataType="dbDate"
+                      cachedName="R_MonthStart"
+                      cachedSortKeyPosition="2"
+                      lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[R_MonthStart]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -6025,7 +6394,7 @@ where [refTable].[IndexBucket] = ?</property>
                 <input
                   refId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
-                  errorRowDisposition="FailComponent"
+                  errorRowDisposition="IgnoreFailure"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
@@ -6056,12 +6425,6 @@ where [refTable].[IndexBucket] = ?</property>
                       externalMetadataColumnId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalProfit]"
                       lineageId="Package\Load ProductMixMonthly\Merge Join.Outputs[Merge Join Output].Columns[TotalProfit]" />
                     <inputColumn
-                      refId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TotalQuantity]"
-                      cachedDataType="i4"
-                      cachedName="TotalQuantity"
-                      externalMetadataColumnId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalQuantity]"
-                      lineageId="Package\Load ProductMixMonthly\Merge Join.Outputs[Merge Join Output].Columns[TotalQuantity]" />
-                    <inputColumn
                       refId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SeasonalityKey]"
                       cachedDataType="i4"
                       cachedName="SeasonalityKey"
@@ -6073,6 +6436,13 @@ where [refTable].[IndexBucket] = ?</property>
                       cachedName="MonthStart"
                       externalMetadataColumnId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateKey]"
                       lineageId="Package\Load ProductMixMonthly\Merge Join.Outputs[Merge Join Output].Columns[MonthStart]" />
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IndexBucket]"
+                      cachedDataType="wstr"
+                      cachedLength="1"
+                      cachedName="IndexBucket"
+                      externalMetadataColumnId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalQuantity]"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column.Outputs[Derived Column Output].Columns[IndexBucket]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -6577,7 +6947,7 @@ WHERE dd.DateKey &gt; ?;</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">1</property>
+                          name="NewSortKeyPosition">0</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
@@ -6659,6 +7029,38 @@ WHERE dd.DateKey &gt; ?;</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Sort.Inputs[Sort Input].Columns[L_ProductID]"
+                      cachedDataType="i4"
+                      cachedName="L_ProductID"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_ProductID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Sort.Inputs[Sort Input].Columns[L_MonthStart]"
+                      cachedDataType="dbDate"
+                      cachedName="L_MonthStart"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_MonthStart]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
                           name="NewSortKeyPosition">2</property>
                       </properties>
                     </inputColumn>
@@ -6676,8 +7078,7 @@ WHERE dd.DateKey &gt; ?;</property>
                       refId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[ProductID]"
                       dataType="i4"
                       lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[ProductID]"
-                      name="ProductID"
-                      sortKeyPosition="1">
+                      name="ProductID">
                       <properties>
                         <property
                           containsID="true"
@@ -6744,14 +7145,41 @@ WHERE dd.DateKey &gt; ?;</property>
                       refId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[MonthStart]"
                       dataType="dbDate"
                       lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[MonthStart]"
-                      name="MonthStart"
-                      sortKeyPosition="2">
+                      name="MonthStart">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the lineage identifier of the input column that is associated with this output column."
                           name="SortColumnId">#{Package\Load ProductMixMonthly\OLE DB Source.Outputs[OLE DB Source Output].Columns[MonthStart]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[L_ProductID]"
+                      dataType="i4"
+                      lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[L_ProductID]"
+                      name="L_ProductID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_ProductID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[L_MonthStart]"
+                      dataType="dbDate"
+                      lineageId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output].Columns[L_MonthStart]"
+                      name="L_MonthStart"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output].Columns[L_MonthStart]}</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -6795,7 +7223,7 @@ WHERE dd.DateKey &gt; ?;</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">1</property>
+                          name="NewSortKeyPosition">0</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
@@ -6811,7 +7239,7 @@ WHERE dd.DateKey &gt; ?;</property>
                         <property
                           dataType="System.Int32"
                           description="Specifies the sort order of the column."
-                          name="NewSortKeyPosition">2</property>
+                          name="NewSortKeyPosition">0</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
@@ -6830,6 +7258,38 @@ WHERE dd.DateKey &gt; ?;</property>
                           name="NewSortKeyPosition">0</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Sort 1.Inputs[Sort Input].Columns[R_ProductID]"
+                      cachedDataType="i4"
+                      cachedName="R_ProductID"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_ProductID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Load ProductMixMonthly\Sort 1.Inputs[Sort Input].Columns[R_MonthStart]"
+                      cachedDataType="dbDate"
+                      cachedName="R_MonthStart"
+                      lineageId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_MonthStart]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -6844,8 +7304,7 @@ WHERE dd.DateKey &gt; ?;</property>
                       refId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[ProductID]"
                       dataType="i4"
                       lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[ProductID]"
-                      name="ProductID"
-                      sortKeyPosition="1">
+                      name="ProductID">
                       <properties>
                         <property
                           containsID="true"
@@ -6858,8 +7317,7 @@ WHERE dd.DateKey &gt; ?;</property>
                       refId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[MonthStart]"
                       dataType="dbDate"
                       lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[MonthStart]"
-                      name="MonthStart"
-                      sortKeyPosition="2">
+                      name="MonthStart">
                       <properties>
                         <property
                           containsID="true"
@@ -6881,6 +7339,34 @@ WHERE dd.DateKey &gt; ?;</property>
                           name="SortColumnId">#{Package\Load ProductMixMonthly\OLE DB Source 1.Outputs[OLE DB Source Output].Columns[ProductKey]}</property>
                       </properties>
                     </outputColumn>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[R_ProductID]"
+                      dataType="i4"
+                      lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[R_ProductID]"
+                      name="R_ProductID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_ProductID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[R_MonthStart]"
+                      dataType="dbDate"
+                      lineageId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output].Columns[R_MonthStart]"
+                      name="R_MonthStart"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output].Columns[R_MonthStart]}</property>
+                      </properties>
+                    </outputColumn>
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -6894,15 +7380,25 @@ WHERE dd.DateKey &gt; ?;</property>
               name="Derived Column Output"
               startId="Package\Load ProductMixMonthly\Derived Column.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Load ProductMixMonthly.Paths[Lookup Match Output]"
-              endId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input]"
-              name="Lookup Match Output"
-              startId="Package\Load ProductMixMonthly\Lookup Seasonality.Outputs[Lookup Match Output]" />
+              refId="Package\Load ProductMixMonthly.Paths[Derived Column Output1]"
+              endId="Package\Load ProductMixMonthly\Sort.Inputs[Sort Input]"
+              name="Derived Column Output"
+              startId="Package\Load ProductMixMonthly\Derived Column 1.Outputs[Derived Column Output]" />
             <path
-              refId="Package\Load ProductMixMonthly.Paths[Lookup Match Output1]"
+              refId="Package\Load ProductMixMonthly.Paths[Derived Column Output2]"
+              endId="Package\Load ProductMixMonthly\Sort 1.Inputs[Sort Input]"
+              name="Derived Column Output"
+              startId="Package\Load ProductMixMonthly\Derived Column 2.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Load ProductMixMonthly.Paths[Lookup Match Output]"
               endId="Package\Load ProductMixMonthly\Derived Column.Inputs[Derived Column Input]"
               name="Lookup Match Output"
               startId="Package\Load ProductMixMonthly\Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Load ProductMixMonthly.Paths[Lookup Match Output1]"
+              endId="Package\Load ProductMixMonthly\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Load ProductMixMonthly\Lookup Seasonality.Outputs[Lookup Match Output]" />
             <path
               refId="Package\Load ProductMixMonthly.Paths[Merge Join Output]"
               endId="Package\Load ProductMixMonthly\Lookup.Inputs[Lookup Input]"
@@ -6910,24 +7406,24 @@ WHERE dd.DateKey &gt; ?;</property>
               startId="Package\Load ProductMixMonthly\Merge Join.Outputs[Merge Join Output]" />
             <path
               refId="Package\Load ProductMixMonthly.Paths[OLE DB Source Output]"
-              endId="Package\Load ProductMixMonthly\Sort.Inputs[Sort Input]"
+              endId="Package\Load ProductMixMonthly\Derived Column 1.Inputs[Derived Column Input]"
               name="OLE DB Source Output"
               startId="Package\Load ProductMixMonthly\OLE DB Source.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\Load ProductMixMonthly.Paths[OLE DB Source Output1]"
-              endId="Package\Load ProductMixMonthly\Sort 1.Inputs[Sort Input]"
+              endId="Package\Load ProductMixMonthly\Derived Column 2.Inputs[Derived Column Input]"
               name="OLE DB Source Output"
               startId="Package\Load ProductMixMonthly\OLE DB Source 1.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\Load ProductMixMonthly.Paths[Sort Output]"
-              endId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input]"
-              name="Sort Output"
-              startId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output]" />
-            <path
-              refId="Package\Load ProductMixMonthly.Paths[Sort Output1]"
               endId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Left Input]"
               name="Sort Output"
               startId="Package\Load ProductMixMonthly\Sort.Outputs[Sort Output]" />
+            <path
+              refId="Package\Load ProductMixMonthly.Paths[Sort Output1]"
+              endId="Package\Load ProductMixMonthly\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Load ProductMixMonthly\Sort 1.Outputs[Sort Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -6966,6 +7462,14 @@ WHERE dd.DateKey &gt; ?;</property>
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
       DTS:To="Package\Execute SQL Task 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{ABE89356-CE59-4D70-B413-9A645E00DE41}"
+      DTS:From="Package\Execute SQL Task 3"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Load ProductMixMonthly" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -6978,23 +7482,23 @@ WHERE dd.DateKey &gt; ?;</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="152,42.6666666666667"
           Id="Package\Data Flow Task"
-          TopLeft="700.694413120963,253.572210130957" />
+          TopLeft="659.288164971967,183.697213462856" />
         <NodeLayout
           Size="164,42.6666666666667"
           Id="Package\Execute SQL Task"
-          TopLeft="690.624969126658,161.199992313385" />
+          TopLeft="650.781220907813,105.137494986653" />
         <NodeLayout
           Size="173.333333333334,42.6666666666667"
           Id="Package\Execute SQL Task 1"
-          TopLeft="682.638858372553,410.553684621476" />
+          TopLeft="641.232610223557,340.678687953375" />
         <NodeLayout
           Size="173.333333333334,42.6666666666667"
           Id="Package\Execute SQL Task 2"
-          TopLeft="66.2499970383943,394.883320098718" />
+          TopLeft="346.406234514435,372.945821144779" />
         <NodeLayout
           Size="140,42.6666666666667"
           Id="Package\Init DimDate"
@@ -7018,25 +7522,25 @@ WHERE dd.DateKey &gt; ?;</property>
         <NodeLayout
           Size="217.333333333334,42.6666666666667"
           Id="Package\Load FactProductMix Monthly"
-          TopLeft="665.763859126925,335.088873419233" />
+          TopLeft="624.357610977929,265.213876751132" />
         <NodeLayout
           Size="194.666666666667,42.6666666666667"
           Id="Package\Load ProductMixMonthly"
-          TopLeft="50.7638866195663,296.649987157981" />
+          TopLeft="328.57637420038,290.962487429182" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="774.65969112381,203.866658980052">
+          TopLeft="734.03469293989,147.80416165332">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,49.705551150905"
+              EndConnector="0,35.8930518095366"
               Start="0,0"
-              End="0,42.205551150905">
+              End="0,28.3930518095366">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,42.205551150905" />
+                    End="0,28.3930518095366" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -7047,18 +7551,18 @@ WHERE dd.DateKey &gt; ?;</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="775.562469457277,296.238876797623">
+          TopLeft="734.156221308281,226.363880129523">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,38.8499966216094"
+              EndConnector="0,38.8499966216093"
               Start="0,0"
-              End="0,31.3499966216094">
+              End="0,31.3499966216093">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.3499966216094" />
+                    End="0,31.3499966216093" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -7069,7 +7573,7 @@ WHERE dd.DateKey &gt; ?;</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="771.868025416406,377.755540085899">
+          TopLeft="730.461777267409,307.880543417799">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7091,18 +7595,48 @@ WHERE dd.DateKey &gt; ?;</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="150.506941828981,339.316653824648">
+          TopLeft="429.491304357407,333.629154095848">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,55.5666662740706"
+              EndConnector="0,39.3166670489309"
               Start="0,0"
-              End="0,48.0666662740706">
+              End="0,31.8166670489309">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,48.0666662740706" />
+                    End="0,31.8166670489309" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="192,42.6666666666667"
+          Id="Package\Load DimProductCluster"
+          TopLeft="42.1874981140718,301.666657368342" />
+        <NodeLayout
+          Size="173.333333333334,42.6666666666667"
+          Id="Package\Execute SQL Task 3"
+          TopLeft="346.093734528404,211.249989926815" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="429.335054364392,253.916656593482">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.0458308356997"
+              Start="0,0"
+              End="0,29.5458308356997">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5458308356997" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -7118,7 +7652,7 @@ WHERE dd.DateKey &gt; ?;</property>
     design-time-name="Package\Data Flow Task">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="150.666666666667,42.6666666666667"
           Id="Package\Data Flow Task\OLE DB Source"
@@ -7146,9 +7680,7 @@ WHERE dd.DateKey &gt; ?;</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -7222,9 +7754,7 @@ WHERE dd.DateKey &gt; ?;</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -7342,9 +7872,7 @@ WHERE dd.DateKey &gt; ?;</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -7880,38 +8408,38 @@ WHERE dd.DateKey &gt; ?;</property>
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\Lookup 4"
-          TopLeft="177.999994695187,666.333321263393" />
+          TopLeft="299.999991059304,610.333322932323" />
         <NodeLayout
           Size="113.333333333334,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\Lookup"
-          TopLeft="173.124994942918,417.387172608987" />
+          TopLeft="295.124991307035,361.387174277917" />
         <NodeLayout
           Size="160,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\OLE DB Source 1"
-          TopLeft="156.153841500099,316.410252146232" />
+          TopLeft="278.153837864216,260.410253815162" />
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\Lookup 1"
-          TopLeft="175.865379355562,517.594862325436" />
+          TopLeft="297.865375719679,461.594863994366" />
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\Lookup 3"
-          TopLeft="427.374980865047,738.449987086057" />
+          TopLeft="549.374977229164,682.449988754987" />
         <NodeLayout
           Size="172,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\OLE DB Destination"
-          TopLeft="396.249982286245,656.599992437363" />
+          TopLeft="518.249978650362,600.599994106293" />
         <NodeLayout
           Size="154.666666666667,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\Derived Column"
-          TopLeft="159.278841360401,731.899983172418" />
+          TopLeft="281.278837724518,675.899984841348" />
         <NodeLayout
           Size="122.666666666667,42.6666666666667"
           Id="Package\Load FactProductMix Monthly\Lookup 2"
-          TopLeft="171.249992344529,606.433318022093" />
+          TopLeft="293.249988708646,550.433319691023" />
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[Lookup Match Output3]"
-          TopLeft="171.249992344529,627.766651355426">
+          TopLeft="293.249988708646,571.766653024356">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7947,7 +8475,7 @@ WHERE dd.DateKey &gt; ?;</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[Lookup Match Output2]"
-          TopLeft="485.479148242313,738.449987086057">
+          TopLeft="607.47914460643,682.449988754987">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7971,7 +8499,7 @@ WHERE dd.DateKey &gt; ?;</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[Lookup Match Output1]"
-          TopLeft="234.891019183379,560.261528992103">
+          TopLeft="356.891015547496,504.261530661033">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7989,13 +8517,13 @@ WHERE dd.DateKey &gt; ?;</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,13.531207014995,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,13.5312070149949,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[Lookup Match Output]"
-          TopLeft="233.49518714924,460.053839275654">
+          TopLeft="355.495183513357,404.053840944584">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8019,7 +8547,7 @@ WHERE dd.DateKey &gt; ?;</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[Derived Column Output]"
-          TopLeft="313.945508027068,756.508318462571">
+          TopLeft="435.945504391185,700.508320131501">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8036,14 +8564,12 @@ WHERE dd.DateKey &gt; ?;</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[OLE DB Source Output]"
-          TopLeft="232.972751554842,359.076918812899">
+          TopLeft="354.972747918959,303.076920481829">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8060,14 +8586,12 @@ WHERE dd.DateKey &gt; ?;</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load FactProductMix Monthly.Paths[Lookup Match Output4]"
-          TopLeft="237.972751361127,708.99998793006">
+          TopLeft="359.972747725244,652.99998959899">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8202,15 +8726,15 @@ WHERE dd.DateKey &gt; ?;</property>
         <NodeLayout
           Size="98.6666666666667,42.6666666666667"
           Id="Package\Load ProductMixMonthly\Sort"
-          TopLeft="119.374994663522,127.449996497631" />
+          TopLeft="217.499990276993,131.99999628067" />
         <NodeLayout
           Size="113.333333333334,42.6666666666667"
           Id="Package\Load ProductMixMonthly\Lookup"
-          TopLeft="339.999984800816,313.316664156119" />
+          TopLeft="333.749985080213,338.666662947337" />
         <NodeLayout
           Size="131.333333333334,42.6666666666667"
           Id="Package\Load ProductMixMonthly\Merge Join"
-          TopLeft="323.124985555187,234.199991693497" />
+          TopLeft="323.124985555187,224.449992158414" />
         <NodeLayout
           Size="150.666666666667,42.6666666666667"
           Id="Package\Load ProductMixMonthly\OLE DB Source"
@@ -8222,204 +8746,46 @@ WHERE dd.DateKey &gt; ?;</property>
         <NodeLayout
           Size="172,42.6666666666667"
           Id="Package\Load ProductMixMonthly\OLE DB Destination"
-          TopLeft="316.249988544733,639.694440923798" />
+          TopLeft="309.30554441073,639.694440923798" />
         <NodeLayout
           Size="170.666666666667,42.6666666666667"
           Id="Package\Load ProductMixMonthly\Lookup Seasonality"
-          TopLeft="313.21873918688,528.24444088267" />
+          TopLeft="306.274295052876,528.24444088267" />
         <NodeLayout
           Size="154.666666666667,42.6666666666667"
           Id="Package\Load ProductMixMonthly\Derived Column"
-          TopLeft="321.142845975502,425.911110017962" />
+          TopLeft="314.198401841498,425.911110017962" />
         <NodeLayout
           Size="108,42.6666666666667"
           Id="Package\Load ProductMixMonthly\Sort 1"
-          TopLeft="406.874981811271,132.799996528626" />
-        <EdgeLayout
-          Id="Package\Load ProductMixMonthly.Paths[Sort Output1]"
-          TopLeft="168.708327996855,170.116663164298">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="199.527768669443,64.0833285291997"
-              Start="0,0"
-              End="199.527768669443,56.5833285291997">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,33.9872087871184" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,33.9872087871184"
-                    Point2="0,37.9872087871184"
-                    Point3="4,37.9872087871184" />
-                  <mssgle:LineSegment
-                    End="195.527768669443,37.9872087871184" />
-                  <mssgle:CubicBezierSegment
-                    Point1="195.527768669443,37.9872087871184"
-                    Point2="199.527768669443,37.9872087871184"
-                    Point3="199.527768669443,41.9872087871184" />
-                  <mssgle:LineSegment
-                    End="199.527768669443,56.5833285291997" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load ProductMixMonthly.Paths[Sort Output]"
-          TopLeft="460.874981811271,175.466663195293">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-51.5277740338615,58.7333284982048"
-              Start="0,0"
-              End="-51.5277740338615,51.2333284982048">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,30.8158446764684" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,30.8158446764684"
-                    Point2="0,34.8158446764684"
-                    Point3="-4,34.8158446764684" />
-                  <mssgle:LineSegment
-                    End="-47.5277740338615,34.8158446764684" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-47.5277740338615,34.8158446764684"
-                    Point2="-51.5277740338615,34.8158446764684"
-                    Point3="-51.5277740338615,38.8158446764684" />
-                  <mssgle:LineSegment
-                    End="-51.5277740338615,51.2333284982048" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load ProductMixMonthly.Paths[OLE DB Source Output1]"
-          TopLeft="464.187482244336,108.516666387717">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,24.2833301409086"
-              Start="0,0"
-              End="0,16.7833301409086">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.7833301409086" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load ProductMixMonthly.Paths[OLE DB Source Output]"
-          TopLeft="169.687496805253,102.666666666667">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,24.7833298309646"
-              Start="0,0"
-              End="0,17.2833298309646">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,17.2833298309646" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load ProductMixMonthly.Paths[Merge Join Output]"
-          TopLeft="392.729151844668,276.866658360164">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,36.4500057959549"
-              Start="0,0"
-              End="0,28.9500057959549">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,28.9500057959549" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load ProductMixMonthly.Paths[Lookup Match Output1]"
-          TopLeft="397.571415388159,355.983330822786">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,69.9277791951764"
-              Start="0,0"
-              End="0,62.4277791951764">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,62.4277791951764" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,25.4092020975882,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="405.982124708328,132.799996528626" />
         <EdgeLayout
           Id="Package\Load ProductMixMonthly.Paths[Lookup Match Output]"
-          TopLeft="400.401030532473,570.911107549337">
+          TopLeft="390.974193460855,381.333329614004">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,68.7833333744613"
+              EndConnector="0,44.5777804039586"
               Start="0,0"
-              End="0,61.2833333744613">
+              End="0,37.0777804039586">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,61.2833333744613" />
+                    End="0,37.0777804039586" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-48.19138671875,24.8369791872307,96.3827734375,11.609375"
+              BoundingBox="-48.19138671875,12.7342027019793,96.3827734375,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load ProductMixMonthly.Paths[Derived Column Output]"
-          TopLeft="398.514125914524,468.577776684629">
+          TopLeft="391.56968178052,468.577776684629">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8439,6 +8805,252 @@ WHERE dd.DateKey &gt; ?;</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[Sort Output]"
+          TopLeft="266.833323610326,174.666662947337">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="101.402773055972,49.7833292110768"
+              Start="0,0"
+              End="101.402773055972,42.2833292110768">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5104790007487" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5104790007487"
+                    Point2="0,29.5104790007487"
+                    Point3="4,29.5104790007487" />
+                  <mssgle:LineSegment
+                    End="97.4027730559723,29.5104790007487" />
+                  <mssgle:CubicBezierSegment
+                    Point1="97.4027730559723,29.5104790007487"
+                    Point2="101.402773055972,29.5104790007487"
+                    Point3="101.402773055972,33.5104790007487" />
+                  <mssgle:LineSegment
+                    End="101.402773055972,42.2833292110768" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[Sort Output1]"
+          TopLeft="459.982124708328,175.466663195293">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-50.6349169309182,48.983328963121"
+              Start="0,0"
+              End="-50.6349169309182,41.483328963121">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.0362561857618" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.0362561857618"
+                    Point2="0,29.0362561857618"
+                    Point3="-4,29.0362561857618" />
+                  <mssgle:LineSegment
+                    End="-46.6349169309182,29.0362561857618" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-46.6349169309182,29.0362561857618"
+                    Point2="-50.6349169309182,29.0362561857618"
+                    Point3="-50.6349169309182,33.0362561857618" />
+                  <mssgle:LineSegment
+                    End="-50.6349169309182,41.483328963121" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[Merge Join Output]"
+          TopLeft="389.604151984367,267.11665882508">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71.5500041222566"
+              Start="0,0"
+              End="0,64.0500041222566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,64.0500041222566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="164,42.6666666666667"
+          Id="Package\Load ProductMixMonthly\Derived Column 1"
+          TopLeft="45.6249979604036,181.699992003441" />
+        <NodeLayout
+          Size="164,42.6666666666667"
+          Id="Package\Load ProductMixMonthly\Derived Column 2"
+          TopLeft="541.24997580424,124.49999473095" />
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[OLE DB Source Output]"
+          TopLeft="170.666665613651,102.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-69.0416676532478,79.0333253367745"
+              Start="0,0"
+              End="-69.0416676532478,71.5333253367745">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.9618309972138" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,42.9618309972138"
+                    Point2="0,46.9618309972138"
+                    Point3="-4,46.9618309972138" />
+                  <mssgle:LineSegment
+                    End="-65.0416676532478,46.9618309972138" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-65.0416676532478,46.9618309972138"
+                    Point2="-69.0416676532478,46.9618309972138"
+                    Point3="-69.0416676532478,50.9618309972138" />
+                  <mssgle:LineSegment
+                    End="-69.0416676532478,71.5333253367745" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[Derived Column Output1]"
+          TopLeft="153.624997960404,181.699992003441">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="63.8749923165892,-28.3666623894377"
+              Start="0,0"
+              End="56.3749923165892,-28.3666623894377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-24.3666623894377" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-24.3666623894377"
+                    Point2="0,-28.3666623894377"
+                    Point3="4,-28.3666623894377" />
+                  <mssgle:LineSegment
+                    End="56.3749923165892,-28.3666623894377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[OLE DB Source Output1]"
+          TopLeft="547.499982677401,87.1833330543836">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="75.7499931268392,37.316661676566"
+              Start="0,0"
+              End="75.7499931268392,29.816661676566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="71.7499931268392,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="71.7499931268392,0"
+                    Point2="75.7499931268392,0"
+                    Point3="75.7499931268392,4" />
+                  <mssgle:LineSegment
+                    End="75.7499931268392,29.816661676566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[Derived Column Output2]"
+          TopLeft="541.24997580424,145.833328064283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-27.2678510959124,8.30000179767634"
+              Start="0,0"
+              End="-19.7678510959124,8.30000179767634">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-9.6339255479562,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9.6339255479562,0"
+                    Point2="-13.6339255479562,0"
+                    Point3="-13.6339255479562,4" />
+                  <mssgle:LineSegment
+                    End="-13.6339255479562,4.30000179767634" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-13.6339255479562,4.30000179767634"
+                    Point2="-13.6339255479562,8.30000179767634"
+                    Point3="-17.6339255479562,8.30000179767634" />
+                  <mssgle:LineSegment
+                    End="-19.7678510959124,8.30000179767634" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load ProductMixMonthly.Paths[Lookup Match Output1]"
+          TopLeft="393.45658639847,570.911107549337">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,68.7833333744613"
+              Start="0,0"
+              End="0,61.2833333744613">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,61.2833333744613" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-57.0600390625,22.6416666872307,114.120078125,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -8448,7 +9060,7 @@ WHERE dd.DateKey &gt; ?;</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -8517,5 +9129,17 @@ WHERE dd.DateKey &gt; ?;</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load DimProductCluster">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="150.666666666667,42.6666666666667"
+          Id="Package\Load DimProductCluster\OLE DB Source"
+          TopLeft="216.999993532896,197.99999409914" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
