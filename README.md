@@ -43,8 +43,7 @@ product-mix-and-clustering/
 │   └── ProductMixDWH.bak
 │
 ├── product-mix-and-clustering/ # Main SSIS Solution files
-│   ├── Monthly_Load.dtsx       # Data loading package
-│   ├── Package.dtsx            # Main ETL workflow
+│   ├── Monthly_Load.dtsx       # ETL workflow run on a scheduler
 │   ├── data-mining/            # Extract data for data mining process
 │   └── market-cluster/         # Data mining result
 │
