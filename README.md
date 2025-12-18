@@ -10,7 +10,7 @@ It focuses on analyzing **Product Mix**, which includes 3 dimensions of product 
 The goal of this project is to execute a full **ETL (Extract, Transform, Load)** process for data mining and reporting.  
 Data is loaded from multiple sources, cleaned in SSIS, and stored in **Fact** and **Dimension** tables to support:
 * **Product Mix Analysis:** Understanding product contribution to revenue.
-* **Clustering:** Grouping markets or customers based on behavior.
+* **Clustering:** Grouping markets based on behavior.
 
 ---
 
