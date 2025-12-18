@@ -1,0 +1,7 @@
+MarketClusterKey,MarketClusterID,MarketClusterName,Description
+0,M001,High-Volume Giant,"Highest revenue and sales volume, but with moderate profit margins."
+1,M002,Small & Efficient,"Lowest revenue and volume, but maintains a solid, efficient profit margin."
+2,M003,Large & Healthy,"A large, balanced market with high revenue, high volume, and strong profit."
+3,M004,Profit Star,"The most profitable market, driven by high-margin sales, not high volume."
+4,M005,Problem Market (Small),A smaller market that is actively losing money (negative profit).
+5,M006,Problem Market (Large),"A large, high-volume market that is unprofitable (breaks even or loses money)."
